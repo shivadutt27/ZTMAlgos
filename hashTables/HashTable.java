@@ -10,47 +10,61 @@
 
 */
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 public class HashTable{
 
-    public HashTable[] data;
+    public List<Entry>[] data; 
 
     public HashTable(int size){
-        this.data = new HashTable[size];
+        this.data = (ArrayList<Entry>[]) new ArrayList[size];
+        System.out.println(Arrays.toString(this.data));
     }
 
-    public void set(String key, int value){
-        // I have to find the index to store the array of key and value
-        // Get the index from hashfunction
-        //After getting the index store the key,value pair into the HashTable.
-        int index = hashFunction(key); // this will give me  the index
-        Object[] keyValueArray = new Object[2];
-        keyValueArray.add(key);
-        keyValueArray.add(value);
-        this.data[index] = keyValueArray; 
-
-    }
-/*
-    public Object[] get(String key){
-        //with the given key, find the index from hash function
-        int getIndex = hashfunction(key);
-        Object[] keyValueArray = null;
-        for(HashTable keyValuePair: this.data){
-            System.out.println(Arrays.toString(keyValuePair));
-            keyValueArray = keyValuePair;
-        }
-        return keyValueArray;
-    }
-*/
     private int hashFunction(String key){
         int hash = 0;
         for(int i=0; i<key.length(); i++){
             hash=(hash + key.charAt(i) * i)% this.data.length;
-            System.out.println(hash);
         }
         return hash;
     }
 
+    public void set(String key, int value){
+        int index = hashFunction(key);
+        if(this.data[index] == null){
+            this.data[index] = new ArrayList<Entry>();
+        }
+        this.data[index].add(new Entry(key,value));
+    }
+
+    public int get(String key){
+        int val = 0;
+        List<Entry> bucket = this.data[hashFunction(key)];
+        for(Entry entry: bucket){
+            if(entry.getKey() == key){
+                val = entry.getValue();
+            }
+        }
+        return val;
+    }
+
 }
+
+class Entry{
+    private String key;
+    private int value;
+
+    public Entry(String key, int value){
+        this.key = key;
+        this.value = value;
+    }
+
+    public int getValue(){return this.value;}
+    public String getKey(){return this.key;}
+}
+
+
+
 
 //============================================  Read this code ========================================================================================//
 /* 
