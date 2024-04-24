@@ -6,7 +6,17 @@ class Tester{
         ll.addElementAtEnd("Munich");
         ll.addElementAtEnd("Vienna");
         ll.addElementAtStart("Monaco");
+        ll.delete("Vienna");
+        ll.delete("Munich");
 
+        //ll.insert("Prague","Monaco");
         ll.display();
+        
+
+        //Node foundNode = ll.find("Vienna");
+        //System.out.println(foundNode);
+
+
+        
     }
 }
