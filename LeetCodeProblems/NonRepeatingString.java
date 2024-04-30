@@ -9,31 +9,26 @@ public class NonRepeatingString {
     }
 
     public static int nonRepeatingString(String s){
-        var map = new HashMap<String,Integer>();
-        String key;
-        for(int i=0; i<s.length()-1;i++){
-            System.out.println("current index is: "+i);
-            if(s.charAt(i) == s.charAt(i+1) && i<s.length()-1){
-                while(s.charAt(i) == s.charAt(i+1)){
-                    i+=1;
-                    if(i==s.length()-1){
-                        break;
-                    }
-                }
-            }
-            key = String.valueOf(s.charAt(i));
-            if(!map.containsKey(key)){
-                map.put(key.toString(),i);
-            }
+        if (s.length() == 0) {
+            return 0;
         }
-        int counter = 1;
-        for(int i=0; i<map.size(); i++){
-            if(map.containsValue(i) && map.containsValue(i+1)){
-                counter++;
+
+        HashMap<Character, Integer> map = new HashMap<>();
+        int maxLength = 0;
+        int start = 0;
+
+        for (int end = 0; end < s.length(); end++) {
+            char currentChar = s.charAt(end);
+            if (map.containsKey(currentChar)) {
+                // Move the start pointer to the right of the last occurrence of currentChar
+                start = Math.max(start, map.get(currentChar) + 1);
             }
+            System.out.println("start is "+start);
+            map.put(currentChar, end);
+            maxLength = Math.max(maxLength, end - start + 1);
+            System.out.println("maximum length "+ maxLength);
         }
-        System.out.println(map.toString());
-        System.out.println(map.size());
-        return counter;
-    }    
+
+        return maxLength;
+    }   
 }
